@@ -27,9 +27,9 @@ Services must extend the [`Ember.Service`][1] base class:
 [1]: http://emberjs.com/api/classes/Ember.Service.html
 
 ```app/services/shopping-cart.js
-import Ember from 'ember';
+import Service from '@ember/service';
 
-export default Ember.Service.extend({
+export default Service.extend({
 });
 ```
 
@@ -37,9 +37,9 @@ Like any Ember object, a service is initialized and can have properties and meth
 Below, the shopping cart service manages an items array that represents the items currently in the shopping cart.
 
 ```app/services/shopping-cart.js
-import Ember from 'ember';
+import Service from '@ember/service';
 
-export default Ember.Service.extend({
+export default Service.extend({
   items: null,
 
   init() {
@@ -71,20 +71,22 @@ When no arguments are passed, the service is loaded based on the name of the var
 You can load the shopping cart service with no arguments like below.
 
 ```app/components/cart-contents.js
-import Ember from 'ember';
+import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 
-export default Ember.Component.extend({
+export default Component.extend({
   //will load the service in file /app/services/shopping-cart.js
-  shoppingCart: Ember.inject.service()
+  shoppingCart: service()
 });
 ```
 
 Another way to inject a service is to provide the name of the service as the argument.
 
 ```app/components/cart-contents.js
-import Ember from 'ember';
+import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 
-export default Ember.Component.extend({
+export default Component.extend({
   //will load the service in file /app/services/shopping-cart.js
   cart: Ember.inject.service('shopping-cart')
 });
@@ -97,12 +99,14 @@ Since normal injection will throw an error if the service doesn't exist,
 you must look up the service using Ember's [`getOwner`](https://emberjs.com/api/classes/Ember.html#method_getOwner) instead. 
 
 ```app/components/cart-contents.js
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed } from "@ember/object";
+import { getOwner } from "@ember/application";
 
-export default Ember.Component.extend({
+export default Component.extend({
   //will load the service in file /app/services/shopping-cart.js
-  cart: Ember.computed(function() {
-    return Ember.getOwner(this).lookup('service:shopping-cart');
+  cart: computed(function() {
+    return getOwner(this).lookup('service:shopping-cart');
   })
 });
 ```
@@ -116,10 +120,11 @@ Below we add a remove action to the `cart-contents` component.
 Notice that below we access the `cart` service with a call to`this.get`.
 
 ```app/components/cart-contents.js
-import Ember from 'ember';
+import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 
-export default Ember.Component.extend({
-  cart: Ember.inject.service('shopping-cart'),
+export default Component.extend({
+  cart: service('shopping-cart'),
 
   actions: {
     remove(item) {

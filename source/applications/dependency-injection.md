@@ -39,10 +39,10 @@ or application instance initializers (with the former being much more common).
 For example, an application initializer could register a `Logger` factory with the key `logger:main`:
 
 ```app/initializers/logger.js
-import Ember from 'ember';
+import EmberObject from "@ember/object"
 
 export function initialize(application) {
-  let Logger = Ember.Object.extend({
+  let Logger = EmberObject.extend({
     log(m) {
       console.log(m);
     }
@@ -95,10 +95,10 @@ register your factories as non-singletons using the `singleton: false` option.
 In the following example, the `Message` class is registered as a non-singleton:
 
 ```app/initializers/notification.js
-import Ember from 'ember';
+import EmberObject from "@ember/object"
 
 export function initialize(application) {
-  let Message = Ember.Object.extend({
+  let Message = EmberObject.extend({
     text: ''
   });
 
@@ -118,10 +118,10 @@ Once a factory is registered, it can be "injected" where it is needed.
 Factories can be injected into whole "types" of factories with *type injections*. For example:
 
 ```app/initializers/logger.js
-import Ember from 'ember';
+import EmberObject from "@ember/object"
 
 export function initialize(application) {
-  let Logger = Ember.Object.extend({
+  let Logger = EmberObject.extend({
     log(m) {
       console.log(m);
     }
@@ -144,9 +144,9 @@ The value of `logger` will come from the factory named `logger:main`.
 Routes in this example application can now access the injected logger:
 
 ```app/routes/index.js
-import Ember from 'ember';
+import Route from "@ember/routing/route"
 
-export default Ember.Route.extend({
+export default Route.extend({
   activate() {
     // The logger property is injected into all routes
     this.get('logger').log('Entered the index route!');
@@ -174,10 +174,11 @@ and services (via `Ember.inject.service`).
 The following code injects the `shopping-cart` service on the `cart-contents` component as the property `cart`:
 
 ```app/components/cart-contents.js
-import Ember from 'ember';
+import Component from '@ember/component';
+import { inject as service } from "@ember/service"
 
 export default Ember.Component.extend({
-  cart: Ember.inject.service('shopping-cart')
+  cart: service('shopping-cart')
 });
 ```
 
@@ -185,10 +186,11 @@ If you'd like to inject a service with the same name as the property,
 simply leave off the service name (the dasherized version of the name will be used):
 
 ```app/components/cart-contents.js
-import Ember from 'ember';
+import Component from '@ember/component';
+import { inject as service } from "@ember/service"
 
-export default Ember.Component.extend({
-  shoppingCart: Ember.inject.service()
+export default Component.extend({
+  shoppingCart: service()
 });
 ```
 
@@ -235,12 +237,9 @@ For example, this component plays songs with different audio services based
 on a song's `audioType`.
 
 ```app/components/play-audio.js
-import Ember from 'ember';
-const {
-  Component,
-  computed,
-  getOwner
-} = Ember;
+import Component from '@ember/component';
+import { computed } from "@ember/object";
+import { getOwner } from "@ember/application";
 
 // Usage:
 //

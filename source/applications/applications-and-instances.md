@@ -1,8 +1,8 @@
-Every Ember application is represented by a class that extends [`Ember.Application`][1].
+Every Ember application is represented by a class that extends [`Application`][1].
 This class is used to declare and configure the many objects that make up your app.
 
 As your application boots,
-it creates an [`Ember.ApplicationInstance`][2] that is used to manage its stateful aspects.
+it creates an [`ApplicationInstance`][2] that is used to manage its stateful aspects.
 This instance acts as the "owner" of objects instantiated for your app.
 
 Essentially, the `Application` *defines your application*
