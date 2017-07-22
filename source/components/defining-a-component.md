@@ -33,9 +33,9 @@ Given the above template, you can now use the `{{blog-post}}` component:
 Its model is populated in `model` hook in the route handler:
 
 ```app/routes/index.js
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
+export default Route.extend({
   model() {
     return this.get('store').findAll('post');
   }
@@ -100,9 +100,9 @@ means of choosing different components for displaying different kinds of posts:
 ```
 
 ```app/routes/index.js
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
+export default Route.extend({
   model() {
     return this.get('store').findAll('post');
   }
